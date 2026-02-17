@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Engineering Consulting",
+    "slug": { "current": "engineering-consulting" },
+    "description": "Comprehensive engineering studies and project management services for complex energy infrastructure.",
+    "isActive": true
+  },
+  {
+    "title": "Gas Turbines and Power Generation",
+    "slug": { "current": "gas-turbines" },
+    "description": "Turnkey solutions for gas power plants, including installation, commissioning, and optimization.",
+    "isActive": true
+  },
+  {
+    "title": "Engineering & Technical Training and Outsourcing",
+    "slug": { "current": "training-outsourcing" },
+    "description": "Specialized training programs and skilled manpower outsourcing for the oil, gas, and power sectors.",
+    "isActive": true
+  },
+  {
+    "title": "Installation and Maintenance",
+    "slug": { "current": "installation-maintenance" },
+    "description": "Field services for electrical, mechanical, and instrumentation systems across industrial facilities.",
+    "isActive": true
+  },
+  {
+    "title": "Renewable Energy",
+    "slug": { "current": "renewable-energy" },
+    "description": "Modern solar, wind, and hybrid energy solutions designed for sustainability and long-term efficiency.",
+    "isActive": true
+  },
+  {
+    "title": "Machining and Fabrication",
+    "slug": { "current": "machining-fabrication" },
+    "description": "Technical precision machining and structural fabrication services for industrial components.",
+    "isActive": true
+  }
+]
