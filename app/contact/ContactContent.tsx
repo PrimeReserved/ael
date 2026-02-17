@@ -4,6 +4,7 @@ import { useState } from "react";
 import PageHero from "@/components/PageHero";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { sendContactEmail } from "@/app/actions/sendEmail";
 
 export default function ContactContent() {
   const [formData, setFormData] = useState({
@@ -15,14 +16,27 @@ export default function ContactContent() {
     message: ""
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ contactType: "", companyName: "", name: "", email: "", phone: "", message: "" });
-    }, 3000);
+    setLoading(true);
+    setError("");
+
+    try {
+      const result = await sendContactEmail(formData);
+      if (result.success) {
+        setSubmitted(true);
+        setFormData({ contactType: "", companyName: "", name: "", email: "", phone: "", message: "" });
+      } else {
+        setError("Failed to send message. Please try again later.");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -207,12 +221,19 @@ export default function ContactContent() {
                     />
                   </div>
 
+                  {error && (
+                    <p className="text-red-500 text-sm font-medium text-center">
+                      {error}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    className="group w-full px-10 py-5 bg-primary text-secondary font-black uppercase tracking-widest text-[11px] rounded transition-all hover:bg-secondary hover:text-white hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center shadow-lg"
+                    disabled={loading}
+                    className="group w-full px-10 py-5 bg-primary text-secondary font-black uppercase tracking-widest text-[11px] rounded transition-all hover:bg-secondary hover:text-white hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    <span>Send Message</span>
-                    <Send size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
+                    <span>{loading ? "Sending..." : "Send Message"}</span>
+                    {!loading && <Send size={16} className="ml-2 transition-transform group-hover:translate-x-1" />}
                   </button>
                 </div>
               </form>

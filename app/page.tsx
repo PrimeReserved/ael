@@ -7,7 +7,7 @@ import { getTrainingData, getServices } from "@/lib/sanity";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Gas, Power & Technical Excellence",
+  title: "Author Energy Limited",
   description: "Author Energy Limited (AEL) provides world-class engineering consulting, gas turbines, renewable energy, and industry-leading technical training.",
 };
 

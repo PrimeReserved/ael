@@ -1,14 +1,14 @@
 import { createClient } from 'next-sanity'
-import imageUrlBuilder from '@sanity/image-url'
+import { createImageUrlBuilder } from '@sanity/image-url'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-02-12',
-  useCdn: false, // Set to true for production for better performance
+  useCdn: false,
 })
 
-const builder = imageUrlBuilder(client)
+const builder = createImageUrlBuilder(client)
 
 export function urlFor(source: any) {
   return builder.image(source)
@@ -47,7 +47,7 @@ export async function getPosts() {
 }
 
 export async function getPost(slug: string) {
-  return client.fetch(`*[_type == "post" && slug.current == $slug][0] {
+  const query = `*[_type == "post" && slug.current == $slug][0] {
     _id,
     title,
     publishedAt,
@@ -60,5 +60,6 @@ export async function getPost(slug: string) {
       alt
     },
     body
-  }`, { slug });
+  }`;
+  return client.fetch(query, { slug });
 }

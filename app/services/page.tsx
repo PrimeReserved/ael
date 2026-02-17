@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 
 export const metadata: Metadata = {
-  title: "Engineering & Energy Solutions",
+  title: "AEL Services | Author Energy Limited",
   description: "Explore Author Energy's comprehensive energy solutions, including Engineering Consulting, Gas Turbines, Renewable Energy, and more.",
 };
 

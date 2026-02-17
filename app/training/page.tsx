@@ -1,17 +1,4 @@
 import PageHero from "@/components/PageHero";
-import Link from "next/link";
-import { 
-  Gauge, 
-  Settings, 
-  Zap, 
-  FolderKanban, 
-  Wrench, 
-  ClipboardList, 
-  Shield, 
-  GraduationCap,
-  ArrowRight,
-  CheckCircle
-} from "lucide-react";
 import TrainingGrid from "@/components/TrainingGrid";
 import type { Metadata } from "next";
 
@@ -24,7 +11,7 @@ const trainingCategories = [
   {
     id: 1,
     title: "Metering and Process Control",
-    icon: Gauge,
+    icon: "Gauge",
     image: "https://res.cloudinary.com/dfwty72r9/image/upload/v1770982687/metering_pdoyyw.jpg",
     description: "Master the critical art of accurate measurement in process plants. Precision instrumentation and control systems that prevent million-dollar discrepancies in oil and gas transactions conducted globally.",
     highlights: [
@@ -37,7 +24,7 @@ const trainingCategories = [
   {
     id: 2,
     title: "Mechanical/Process Design",
-    icon: Settings,
+    icon: "Settings",
     image: "https://res.cloudinary.com/dfwty72r9/image/upload/v1770982808/o_1bn8nicpqg2s1nt218lb1ub8qlrh_mcl76u.jpg",
     description: "Design and maintain the backbone of industrial operations. Master plant design, piping systems, and equipment specifications that drive efficiency in chemical, pharmaceutical, and petrochemical plants.",
     highlights: [
@@ -50,7 +37,7 @@ const trainingCategories = [
   {
     id: 3,
     title: "Electrical System Design",
-    icon: Zap,
+    icon: "Zap",
     image: "https://res.cloudinary.com/dfwty72r9/image/upload/v1770982840/20200414_013904-1024x617-1-1_my8dzw.jpg",
     description: "Comprehensive electrical programs covering power and distribution systems, substations, commercial lighting, protective devices, CCTV, security systems, fire alarms, and low current systems design.",
     highlights: [
@@ -63,7 +50,7 @@ const trainingCategories = [
   {
     id: 4,
     title: "Asset Management",
-    icon: FolderKanban,
+    icon: "FolderKanban",
     image: "https://res.cloudinary.com/dfwty72r9/image/upload/v1770982878/OFFICE-SAMPLE_csqtwi.jpg",
     description: "Strategic investment and asset management training designed for professionals. Apply modern portfolio and asset allocation theory to generate superior performance while maintaining regulatory compliance.",
     highlights: [
@@ -76,7 +63,7 @@ const trainingCategories = [
   {
     id: 5,
     title: "Fabrication & Grinding",
-    icon: Wrench,
+    icon: "Wrench",
     image: "https://res.cloudinary.com/dfwty72r9/image/upload/v1770982888/welding-fabrication-hero-1-1_vddpac.jpg",
     description: "Expert training in metal cutting, grinding, and finishing with spacious facilities and equipment. Designed to enhance skills and competitiveness across marine, oil and gas, construction, and aerospace sectors.",
     highlights: [
@@ -89,7 +76,7 @@ const trainingCategories = [
   {
     id: 6,
     title: "Contract & Project Management",
-    icon: ClipboardList,
+    icon: "ClipboardList",
     image: "https://res.cloudinary.com/dfwty72r9/image/upload/v1770982919/co1-scaled_hmr4ux.jpg",
     description: "Professional training in contract management, procurement processes, and project management methodologies essential for successful project delivery in the energy sector.",
     highlights: [
@@ -102,7 +89,7 @@ const trainingCategories = [
   {
     id: 7,
     title: "Health, Safety & Environment",
-    icon: Shield,
+    icon: "Shield",
     image: "https://res.cloudinary.com/dfwty72r9/image/upload/v1770982932/pix-4-1_ypgah3.jpg",
     description: "Comprehensive HSE training covering occupational health and safety, environmental management, and food safety. Flexible in-company programs tailored to your industrial needs and schedule.",
     highlights: [
@@ -115,7 +102,7 @@ const trainingCategories = [
   {
     id: 8,
     title: "Vocational Skills",
-    icon: GraduationCap,
+    icon: "GraduationCap",
     image: "https://res.cloudinary.com/dfwty72r9/image/upload/v1770982944/20181030_102859_u4lvy8.jpg",
     description: "Community empowerment through skill acquisition programs. Job-centric training designed in partnership with CSR departments to create self-reliant, employable individuals across various sectors.",
     highlights: [

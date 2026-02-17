@@ -323,6 +323,8 @@ const disciplines = [
   }
 ];
 
+import { sendTrainingApplicationEmail } from "@/app/actions/sendEmail";
+
 export default function ApplyForTrainingPage() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -338,26 +340,39 @@ export default function ApplyForTrainingPage() {
     marketingConsent: false
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        company: "",
-        disciplineCategory: "",
-        specificCourse: "",
-        location: "",
-        participantType: "",
-        numberOfParticipants: "",
-        marketingConsent: false
-      });
-    }, 3000);
+    setLoading(true);
+    setError("");
+
+    try {
+      const result = await sendTrainingApplicationEmail(formData);
+      if (result.success) {
+        setSubmitted(true);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          company: "",
+          disciplineCategory: "",
+          specificCourse: "",
+          location: "",
+          participantType: "",
+          numberOfParticipants: "",
+          marketingConsent: false
+        });
+      } else {
+        setError("Failed to submit application. Please try again later.");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -664,13 +679,20 @@ export default function ApplyForTrainingPage() {
                   </label>
                 </div>
 
+                {error && (
+                  <p className="text-red-500 text-sm font-medium text-center">
+                    {error}
+                  </p>
+                )}
+
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="group w-full px-10 py-4 bg-primary text-white font-bold uppercase tracking-wider text-sm rounded-lg hover:bg-white hover:text-primary hover:border-2 hover:border-primary transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center shadow-sm hover:shadow-lg"
+                  disabled={loading}
+                  className="group w-full px-10 py-4 bg-primary text-white font-bold uppercase tracking-wider text-sm rounded-lg hover:bg-white hover:text-primary hover:border-2 hover:border-primary transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center shadow-sm hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <span>Submit Application</span>
-                  <Send size={18} className="ml-2 transition-transform group-hover:translate-x-1" />
+                  <span>{loading ? "Submitting Application..." : "Submit Application"}</span>
+                  {!loading && <Send size={18} className="ml-2 transition-transform group-hover:translate-x-1" />}
                 </button>
               </form>
             )}

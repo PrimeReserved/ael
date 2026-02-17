@@ -2,13 +2,34 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, CheckCircle } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { 
+  ArrowRight, 
+  CheckCircle,
+  Gauge,
+  Settings,
+  Zap,
+  FolderKanban,
+  Wrench,
+  ClipboardList,
+  Shield,
+  GraduationCap
+} from "lucide-react";
+
+const iconMap = {
+  Gauge,
+  Settings,
+  Zap,
+  FolderKanban,
+  Wrench,
+  ClipboardList,
+  Shield,
+  GraduationCap,
+};
 
 interface TrainingCategory {
   id: number;
   title: string;
-  icon: LucideIcon;
+  icon: string;
   image: string;
   description: string;
   highlights: string[];
@@ -18,7 +39,7 @@ export default function TrainingGrid({ categories }: { categories: TrainingCateg
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {categories.map((category) => {
-        const Icon = category.icon;
+        const Icon = iconMap[category.icon as keyof typeof iconMap] || Shield;
         return (
           <div 
             key={category.id}
