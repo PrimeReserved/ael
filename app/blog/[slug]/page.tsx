@@ -1,10 +1,32 @@
-import { getPost } from "@/lib/sanity";
+import { getPost, client } from "@/lib/sanity";
 import PageHero from "@/components/PageHero";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/lib/sanity";
 import Link from "next/link";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
+import type { Metadata } from "next";
+
+export async function generateStaticParams() {
+  const query = `*[_type == "post"]{ "slug": slug.current }`;
+  const posts = await client.fetch(query);
+  
+  return posts.map((post: { slug: string }) => ({
+    slug: post.slug,
+  }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
+  
+  if (!post) return { title: "Post Not Found" };
+  
+  return {
+    title: post.title,
+    description: post.excerpt,
+  };
+}
 
 // Components mapping for PortableText
 const ptComponents = {

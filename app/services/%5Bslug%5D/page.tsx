@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 async function getService(slug: string) {
+  if (!slug || slug === '[slug]') return null;
+  
   const query = `*[_type == "service" && slug.current == $slug][0]{
     title,
     subtitle,
@@ -14,6 +16,15 @@ async function getService(slug: string) {
   }`;
   
   return await client.fetch(query, { slug });
+}
+
+export async function generateStaticParams() {
+  const query = `*[_type == "service"]{ "slug": slug.current }`;
+  const services = await client.fetch(query);
+  
+  return services.map((service: { slug: string }) => ({
+    slug: service.slug,
+  }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
