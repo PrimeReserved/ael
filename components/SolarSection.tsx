@@ -47,13 +47,13 @@ export default function SolarSection() {
         
         {/* Top Minimal Title Area */}
         <div className="mb-10 text-center">
-            <h2 className="text-3xl md:text-5xl font-black text-secondary uppercase tracking-tighter leading-none inline-block">
+            <h2 className="text-2xl md:text-5xl font-black text-secondary uppercase tracking-tighter leading-none inline-block">
                 RENEWABLE PRECISION
             </h2>
         </div>
 
         {/* Cinematic Slider Container */}
-        <div className="relative h-[75vh] md:h-[80vh] max-h-[850px] rounded-[3rem] md:rounded-[4rem] overflow-hidden bg-secondary shadow-2xl">
+        <div className="relative min-h-[600px] h-[75vh] md:h-[80vh] max-h-[850px] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden bg-secondary shadow-2xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -88,7 +88,7 @@ export default function SolarSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-secondary/60 via-transparent to-transparent pointer-events-none" />
 
               {/* Content Canvas */}
-              <div className="absolute inset-0 px-10 md:px-20 lg:px-24 py-12 md:py-20 lg:py-24 flex flex-col justify-center pointer-events-none">
+              <div className="absolute inset-0 px-6 md:px-20 lg:px-24 py-12 md:py-20 lg:py-24 flex flex-col justify-center pointer-events-none">
                 <div className="max-w-6xl w-full pointer-events-auto">
                   
                   {/* SOLAR Explicit Label */}
@@ -108,7 +108,7 @@ export default function SolarSection() {
                         initial={{ x: -20, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9] max-w-4xl"
+                        className="text-3xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[1] md:leading-[0.9] max-w-4xl"
                     >
                         {solarFeatures[activeIndex].title}
                     </motion.h3>
@@ -130,11 +130,11 @@ export default function SolarSection() {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.4 }}
-                        className="flex items-center gap-6"
+                        className="flex flex-wrap items-center gap-4 md:gap-6"
                       >
                         {/* Compact Stats - Uniform Alignment */}
-                        <div className="px-6 py-4 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-xl shadow-2xl flex flex-col items-center justify-center text-center min-w-[130px]">
-                            <span className="text-primary font-black text-2xl leading-none mb-1 text-center font-sans tracking-tight">
+                        <div className="px-4 py-3 md:px-6 md:py-4 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-xl shadow-2xl flex flex-col items-center justify-center text-center min-w-[120px] md:min-w-[130px]">
+                            <span className="text-primary font-black text-xl md:text-2xl leading-none mb-1 text-center font-sans tracking-tight">
                                 {solarFeatures[activeIndex].stats}
                             </span>
                             <span className="text-white/40 text-[8px] font-black uppercase tracking-[0.2em] whitespace-nowrap text-center">
@@ -143,11 +143,11 @@ export default function SolarSection() {
                         </div>
 
                         {/* Compact Certification */}
-                        <div className="flex items-center gap-3 bg-secondary/40 px-5 py-3 rounded-xl border border-white/5 backdrop-blur-sm">
-                            <div className="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center bg-primary/10">
-                                <ShieldCheck className="w-5 h-5 text-primary" />
+                        <div className="flex items-center gap-3 bg-secondary/40 px-4 py-2.5 md:px-5 md:py-3 rounded-xl border border-white/5 backdrop-blur-sm">
+                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary/30 flex items-center justify-center bg-primary/10">
+                                <ShieldCheck className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                             </div>
-                            <span className="text-white/80 text-[9px] font-black uppercase tracking-[0.2em] leading-tight">
+                            <span className="text-white/80 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] leading-tight">
                                 Author Energy<br/>certified
                             </span>
                         </div>
@@ -180,7 +180,7 @@ export default function SolarSection() {
           </div>
 
           {/* Timeline Indicators */}
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-8 z-20">
+          <div className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 flex flex-col gap-4 md:gap-8 z-20">
             {solarFeatures.map((_, idx) => (
               <button
                 key={idx}
@@ -188,7 +188,7 @@ export default function SolarSection() {
                 className="group flex flex-col items-center outline-none"
               >
                 <div 
-                    className={`h-24 md:h-28 w-[4px] md:w-[6px] rounded-full transition-all duration-700 shadow-2xl ${
+                    className={`h-12 md:h-28 w-[3px] md:w-[6px] rounded-full transition-all duration-700 shadow-2xl ${
                         activeIndex === idx ? "bg-primary scale-x-[1.8] shadow-primary/50" : "bg-white/10 group-hover:bg-white/20"
                     }`} 
                 />

@@ -165,7 +165,7 @@ export default function TrainingBanner({ courses, settings }: { courses: Trainin
 
   return (
     <section className="py-16 bg-zinc-100 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-12 md:px-24">
+      <div className="max-w-7xl mx-auto px-6 md:px-24">
         {/* Header Section - Centralized */}
         <div className="max-w-4xl mx-auto mb-16 space-y-4 text-center">
           <span className="text-primary font-black uppercase tracking-[0.4em] text-[12px] block">
@@ -205,7 +205,7 @@ export default function TrainingBanner({ courses, settings }: { courses: Trainin
                     </div>
                   )}
                 </div>
-                <div className="w-full lg:w-1/2 p-8 md:p-10 lg:p-12 flex flex-col justify-center space-y-5 bg-white pr-16 md:pr-20">
+                <div className="w-full lg:w-1/2 p-6 md:p-10 lg:p-12 flex flex-col justify-center space-y-5 bg-white md:pr-16 lg:pr-20">
                   <div className="space-y-3">
                     <div className="flex items-center text-[11px] font-bold text-primary uppercase tracking-[0.3em] gap-3">
                       <Calendar className="w-4 h-4" />

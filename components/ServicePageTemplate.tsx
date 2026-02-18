@@ -46,10 +46,10 @@ export default function ServicePageTemplate({
             <span className="text-primary font-black uppercase tracking-[0.4em] text-[12px] block">
               OUR SERVICES
             </span>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-secondary uppercase tracking-tighter leading-none" style={{ wordSpacing: '0.5rem' }}>
+            <h2 className="text-3xl md:text-6xl lg:text-7xl font-black text-secondary uppercase tracking-tighter leading-none" style={{ wordSpacing: '0.5rem' }}>
               {subtitle || title}
             </h2>
-            <p className="text-gray-800 text-xl md:text-2xl font-medium leading-relaxed max-w-5xl">
+            <p className="text-gray-800 text-lg md:text-2xl font-medium leading-relaxed max-w-5xl">
               {description}
             </p>
           </div>
@@ -58,7 +58,7 @@ export default function ServicePageTemplate({
           <div className="space-y-12">
             {sections.map((section, index) => (
               <div key={index} className="space-y-5">
-                <h3 className="text-3xl md:text-4xl font-bold text-secondary">
+                <h3 className="text-2xl md:text-4xl font-bold text-secondary">
                   {section.title}
                 </h3>
                 <p className="text-gray-800 text-lg leading-relaxed font-medium">
@@ -86,7 +86,7 @@ export default function ServicePageTemplate({
           {equipmentGallery && equipmentGallery.length > 0 && (
             <div className="mt-16 space-y-6">
               <div className="space-y-3">
-                <h3 className="text-3xl md:text-4xl font-bold text-secondary">
+                <h3 className="text-2xl md:text-4xl font-bold text-secondary">
                   Equipment Gallery
                 </h3>
                 <p className="text-gray-800 text-lg font-medium">

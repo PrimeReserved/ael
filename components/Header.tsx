@@ -111,7 +111,7 @@ export default function Header() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-secondary z-[100] flex flex-col h-screen w-screen overflow-hidden"
+                className="fixed inset-0 bg-secondary/85 backdrop-blur-2xl z-[100] flex flex-col h-[100dvh] w-screen overflow-hidden"
             >
                 <div className="flex-grow relative flex items-center justify-center overflow-hidden">
                 {/* Main Menu Layer */}
@@ -182,7 +182,7 @@ export default function Header() {
                 </div>
 
                 {/* Ultra-Compact Bottom Contact Area */}
-                <div className="bg-secondary border-t border-white/5 py-3 px-8">
+                <div className="bg-secondary/60 backdrop-blur-md border-t border-white/5 py-3 px-8 pb-[calc(12px+env(safe-area-inset-bottom))]">
                 <div className="flex items-center justify-center space-x-10 text-[10px] uppercase font-bold tracking-widest text-[#f59e0b]">
                     <a href="tel:+2347034703200" className="flex items-center space-x-2">
                         <Phone className="w-3 h-3" />
