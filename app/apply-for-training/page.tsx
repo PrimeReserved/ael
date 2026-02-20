@@ -324,8 +324,11 @@ const disciplines = [
 ];
 
 import { sendTrainingApplicationEmail } from "@/app/actions/sendEmail";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
 
-export default function ApplyForTrainingPage() {
+function ApplyForm() {
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -339,6 +342,20 @@ export default function ApplyForTrainingPage() {
     numberOfParticipants: "",
     marketingConsent: false
   });
+
+  useEffect(() => {
+    const category = searchParams.get("category");
+    const course = searchParams.get("course");
+    
+    if (category || course) {
+      setFormData(prev => ({
+        ...prev,
+        disciplineCategory: category || prev.disciplineCategory,
+        specificCourse: course || prev.specificCourse
+      }));
+    }
+  }, [searchParams]);
+
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -701,5 +718,17 @@ export default function ApplyForTrainingPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function ApplyForTrainingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <ApplyForm />
+    </Suspense>
   );
 }

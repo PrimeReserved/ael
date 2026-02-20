@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import PageHero from "@/components/PageHero";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronDown, Search, BookOpen, Award, Users } from "lucide-react";
+import Link from "next/link";
 
 const courseCategories = [
   {
@@ -369,10 +370,6 @@ export default function CoursesContent() {
     setExpandedCategory(null);
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   useEffect(() => {
     const handleScroll = () => {
       if (!searchSectionRef.current || !lastCourseRef.current || !ctaSectionRef.current) return;
@@ -420,6 +417,21 @@ export default function CoursesContent() {
   );
 
   const totalCourses = courseCategories.reduce((acc, cat) => acc + cat.courses.length, 0);
+
+  // Helper to highlight search matches
+  const highlightMatch = (text: string, query: string) => {
+    if (!query) return text;
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    return (
+      <span className="font-medium">
+        {parts.map((part, i) => 
+          part.toLowerCase() === query.toLowerCase() 
+            ? <span key={i} className="text-primary font-black bg-primary/10 px-1 rounded">{part}</span> 
+            : part
+        )}
+      </span>
+    );
+  };
 
   return (
     <main className="min-h-screen bg-white">
@@ -585,7 +597,11 @@ export default function CoursesContent() {
         <div className="max-w-6xl mx-auto">
           <div className="space-y-4">
             {filteredCategories.map((category, idx) => {
-              const isExpanded = allExpanded || expandedCategory === idx;
+              // Auto-expand if there's a search query and this category has matches
+              const hasMatches = searchQuery !== "" && category.courses.some(course => 
+                course.toLowerCase().includes(searchQuery.toLowerCase())
+              );
+              const isExpanded = allExpanded || expandedCategory === idx || hasMatches;
               const isLastCourse = idx === filteredCategories.length - 1;
               
               // Creative alternating background patterns for main card
@@ -667,30 +683,28 @@ export default function CoursesContent() {
                         <div className="px-6 pb-6 bg-white border-t border-zinc-200">
                           <div className="pt-5 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
                             {category.courses.map((course, courseIdx) => (
-                              <motion.div
+                              <Link
                                 key={courseIdx}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: courseIdx * 0.015 }}
+                                href={`/apply-for-training?category=${encodeURIComponent(category.title)}&course=${encodeURIComponent(course)}`}
                                 className="group/item flex items-start gap-2.5 py-2 px-3 -mx-3 rounded-xl hover:bg-zinc-50 transition-all duration-200"
                               >
                                 <ChevronRight className="w-4 h-4 text-primary/60 mt-0.5 flex-shrink-0 group-hover/item:text-primary group-hover/item:translate-x-1 transition-all duration-200" strokeWidth={2.5} />
                                 <span className="text-sm text-zinc-800 group-hover/item:text-zinc-900 leading-relaxed font-medium">
-                                  {course}
+                                  {highlightMatch(course, searchQuery)}
                                 </span>
-                              </motion.div>
+                              </Link>
                             ))}
                           </div>
 
                           {/* Action Button */}
                           <div className="mt-6 pt-5 border-t border-zinc-200">
-                            <a
-                              href="/apply-for-training"
+                            <Link
+                              href={`/apply-for-training?category=${encodeURIComponent(category.title)}`}
                               className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary text-white font-bold rounded-xl transition-all duration-300 text-sm shadow-lg hover:shadow-2xl hover:scale-[1.02] group/btn"
                             >
-                              <span>Apply Now</span>
+                              <span>Apply for {category.title.split(',')[0]}</span>
                               <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" strokeWidth={2.5} />
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </motion.div>
@@ -725,13 +739,13 @@ export default function CoursesContent() {
             <p className="text-base md:text-lg text-zinc-700 mb-8 max-w-2xl mx-auto font-medium">
               Join thousands of professionals advancing their careers with our industry-leading courses.
             </p>
-            <a
+            <Link
               href="/apply-for-training"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary text-white font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 group"
             >
               <span>Apply for Training</span>
               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
-            </a>
+            </Link>
           </motion.div>
         </div>
       </section>

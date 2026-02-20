@@ -65,11 +65,14 @@ export default function Hero() {
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-secondary">
-      {/* Persistent Multi-layered Overlays (Fixed to avoid flicker) */}
+      {/* Persistent Multi-layered Overlays */}
       <div className="absolute inset-0 z-10 bg-secondary/45" />
       <div className="absolute inset-0 z-10 bg-secondary/15" />
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-secondary/90 via-transparent to-secondary/30" />
       <div className="absolute inset-0 z-10 bg-gradient-to-r from-secondary/50 via-transparent to-transparent" />
+      
+      {/* Black Dampening Layer */}
+      <div className="absolute inset-0 z-10 bg-black/25" />
 
       {/* Stacked Image Cross-fade (No Blackouts) */}
       <div className="absolute inset-0">
