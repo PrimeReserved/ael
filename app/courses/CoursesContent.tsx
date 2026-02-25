@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronDown, Search, BookOpen, Award, Users } from "lucide-react";
 import Link from "next/link";
 
-const courseCategories = [
+const defaultCourseCategories = [
   {
     title: "Metering & Process Control, Power, DCS Training",
     description: "Comprehensive training in metering systems, process control, power plant operations, and distributed control systems. Master industrial instrumentation, flow measurement, and control valve technologies essential for oil & gas operations.",
@@ -346,7 +346,9 @@ const courseCategories = [
   }
 ];
 
-export default function CoursesContent() {
+export default function CoursesContent({ initialCategories }: { initialCategories?: any[] }) {
+  const categoriesToUse = initialCategories && initialCategories.length > 0 ? initialCategories : defaultCourseCategories;
+  
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchSticky, setIsSearchSticky] = useState(false);
@@ -378,34 +380,26 @@ export default function CoursesContent() {
       const lastCourseRect = lastCourseRef.current.getBoundingClientRect();
       const ctaRect = ctaSectionRef.current.getBoundingClientRect();
 
-      // Check if search section has scrolled past viewport top
       const hasScrolledPastSearch = searchRect.top < -searchRect.height;
-      
-      // Check if we've scrolled into CTA section
       const hasReachedCta = ctaRect.top <= window.innerHeight;
 
-      // Make sticky when scrolled past search but not yet in CTA
       setIsSearchSticky(hasScrolledPastSearch && !hasReachedCta);
-
-      // Show scroll to top button when scrolled down more than 300px
       setShowScrollTop(window.scrollY > 300);
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial state
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Auto-scroll to results when searching
   useEffect(() => {
     if (searchQuery && isSearchSticky) {
       searchSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [searchQuery, isSearchSticky]);
 
-  // Filter categories based on search
-  const filteredCategories = courseCategories.map(category => ({
+  const filteredCategories = categoriesToUse.map(category => ({
     ...category,
     courses: category.courses.filter(course =>
       course.toLowerCase().includes(searchQuery.toLowerCase())
@@ -416,9 +410,8 @@ export default function CoursesContent() {
     category.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const totalCourses = courseCategories.reduce((acc, cat) => acc + cat.courses.length, 0);
+  const totalCourses = categoriesToUse.reduce((acc, cat) => acc + cat.courses.length, 0);
 
-  // Helper to highlight search matches
   const highlightMatch = (text: string, query: string) => {
     if (!query) return text;
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
@@ -440,7 +433,6 @@ export default function CoursesContent() {
         image="https://res.cloudinary.com/dfwty72r9/image/upload/v1770948853/oil_hrdc3c.jpg"
       />
 
-      {/* Stats Bar */}
       <section className="border-b border-zinc-200 bg-gradient-to-r from-zinc-50 to-white">
         <div className="max-w-6xl mx-auto px-4 py-4 md:py-6">
           <div className="grid grid-cols-3 md:gap-6 gap-3">
@@ -468,7 +460,7 @@ export default function CoursesContent() {
                 <Award className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
               </div>
               <div className="text-center md:text-left">
-                <div className="text-base md:text-2xl font-bold text-secondary leading-tight">{courseCategories.length}</div>
+                <div className="text-base md:text-2xl font-bold text-secondary leading-tight">{categoriesToUse.length}</div>
                 <div className="text-[10px] md:text-sm font-medium text-zinc-700 leading-tight">Specialized Categories</div>
               </div>
             </motion.div>
@@ -490,7 +482,6 @@ export default function CoursesContent() {
         </div>
       </section>
 
-      {/* Search Section - Regular Position */}
       <section ref={searchSectionRef} className="py-8 px-6 bg-gradient-to-br from-zinc-50 via-white to-zinc-50">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
@@ -505,7 +496,6 @@ export default function CoursesContent() {
               />
             </div>
             
-            {/* Expand/Collapse Buttons */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={expandAll}
@@ -536,7 +526,6 @@ export default function CoursesContent() {
         </div>
       </section>
 
-      {/* Sticky Search Bar - Bottom Position */}
       <AnimatePresence>
         {isSearchSticky && (
           <motion.div
@@ -548,7 +537,6 @@ export default function CoursesContent() {
           >
             <div className="max-w-6xl mx-auto">
               <div className="flex items-center gap-4">
-                {/* Search Input */}
                 <div className="flex-1 relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 z-10" />
                   <input
@@ -569,7 +557,6 @@ export default function CoursesContent() {
                   )}
                 </div>
                 
-                {/* Compact Expand/Collapse Buttons */}
                 <div className="hidden md:flex items-center gap-3 flex-shrink-0">
                   <button
                     onClick={expandAll}
@@ -592,19 +579,16 @@ export default function CoursesContent() {
         )}
       </AnimatePresence>
 
-      {/* Course Categories */}
       <section className="py-12 px-6 bg-gradient-to-br from-white via-zinc-50/40 to-primary/5">
         <div className="max-w-6xl mx-auto">
           <div className="space-y-4">
             {filteredCategories.map((category, idx) => {
-              // Auto-expand if there's a search query and this category has matches
               const hasMatches = searchQuery !== "" && category.courses.some(course => 
                 course.toLowerCase().includes(searchQuery.toLowerCase())
               );
               const isExpanded = allExpanded || expandedCategory === idx || hasMatches;
               const isLastCourse = idx === filteredCategories.length - 1;
               
-              // Creative alternating background patterns for main card
               const bgPatterns = [
                 'bg-gradient-to-br from-white to-blue-50/30',
                 'bg-gradient-to-bl from-white to-purple-50/30',
@@ -628,10 +612,8 @@ export default function CoursesContent() {
                     boxShadow: isExpanded ? '0 20px 60px -10px rgba(0, 0, 0, 0.15)' : undefined
                   }}
                 >
-                  {/* Subtle decorative element */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   
-                  {/* Category Header - Different background from content */}
                   <button
                     onClick={() => toggleCategory(idx)}
                     className={`w-full p-6 text-left flex items-start gap-4 transition-all duration-300 relative ${
@@ -647,7 +629,6 @@ export default function CoursesContent() {
                           <span className="px-3 py-1.5 bg-gradient-to-r from-primary/20 to-primary/10 text-primary text-xs font-bold rounded-full shadow-sm border border-primary/20">
                             {category.courses.length}
                           </span>
-                          {/* Enhanced Chevron Button */}
                           <div className={`p-2.5 rounded-xl transition-all duration-300 ${
                             isExpanded 
                               ? 'bg-gradient-to-br from-primary to-primary/80 shadow-lg scale-110' 
@@ -670,7 +651,6 @@ export default function CoursesContent() {
                     </div>
                   </button>
 
-                  {/* Expandable Content - White background, different from header */}
                   <AnimatePresence>
                     {isExpanded && (
                       <motion.div
@@ -682,7 +662,7 @@ export default function CoursesContent() {
                       >
                         <div className="px-6 pb-6 bg-white border-t border-zinc-200">
                           <div className="pt-5 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
-                            {category.courses.map((course, courseIdx) => (
+                            {category.courses.map((course: string, courseIdx: number) => (
                               <Link
                                 key={courseIdx}
                                 href={`/apply-for-training?category=${encodeURIComponent(category.title)}&course=${encodeURIComponent(course)}`}
@@ -696,7 +676,6 @@ export default function CoursesContent() {
                             ))}
                           </div>
 
-                          {/* Action Button */}
                           <div className="mt-6 pt-5 border-t border-zinc-200">
                             <Link
                               href={`/apply-for-training?category=${encodeURIComponent(category.title)}`}
@@ -717,9 +696,7 @@ export default function CoursesContent() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section ref={ctaSectionRef} className="py-16 px-6 bg-gradient-to-br from-secondary/5 via-primary/5 to-accent/5 relative overflow-hidden">
-        {/* Decorative background elements */}
         <div className="absolute top-0 left-0 w-full h-full opacity-30">
           <div className="absolute top-10 left-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl"></div>
           <div className="absolute bottom-10 right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>

@@ -1,10 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Linkedin, Facebook, Twitter, Instagram, MapPin, Phone, Mail, ArrowRight } from "lucide-react";
 
 export default function Footer() {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
   const goldColor = "#f59e0b";
+
+  // Do not show footer on admin pages
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <footer className="bg-secondary text-white pt-20 pb-10 border-t border-white/5">
@@ -90,9 +97,12 @@ export default function Footer() {
                     IIHT Complex, Opposite Jephthah College, KM 5 East West Road, Port Harcourt
                     </p>
                 </div>
-                <div className="flex items-center space-x-3">
-                    <Phone className="w-5 h-5 shrink-0" style={{ color: goldColor }} />
-                    <span className="text-sm tracking-normal">+234-7034703200</span>
+                <div className="flex items-start space-x-3">
+                    <Phone className="w-5 h-5 shrink-0 mt-0.5" style={{ color: goldColor }} />
+                    <div className="flex flex-col space-y-1">
+                        <span className="text-sm tracking-normal">+234-7034703200</span>
+                        <span className="text-sm tracking-normal">+234-7031372870</span>
+                    </div>
                 </div>
                 <div className="flex items-center space-x-3">
                     <Mail className="w-5 h-5 shrink-0" style={{ color: goldColor }} />

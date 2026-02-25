@@ -3,9 +3,14 @@
 import { useState, useEffect } from "react";
 import { ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export default function ScrollToTop() {
+  const pathname = usePathname();
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Do not show on admin pages
+  if (pathname?.startsWith("/admin")) return null;
 
   useEffect(() => {
     const handleScroll = () => {

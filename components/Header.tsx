@@ -43,6 +43,9 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<any | null>(null);
 
+  // Do not show header on admin pages
+  if (pathname?.startsWith("/admin")) return null;
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -90,10 +93,14 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center">
           <div className="flex items-center space-x-8 text-[9px] uppercase tracking-[0.3em] font-black text-white">
-            <a href="tel:+2347034703200" className="flex items-center space-x-2 transition-colors hover:text-primary">
+            <div className="flex items-center space-x-2">
               <Phone className="w-2 h-2" style={{ color: goldColor }} />
-              <span>+234-7034703200</span>
-            </a>
+              <div className="flex items-center space-x-3">
+                <a href="tel:+2347034703200" className="hover:text-primary transition-colors">+234-7034703200</a>
+                <span className="text-white/20">|</span>
+                <a href="tel:+2347031372870" className="hover:text-primary transition-colors">+234-7031372870</a>
+              </div>
+            </div>
             <a href="mailto:info@authorenergy.com" className="flex items-center space-x-2 transition-colors hover:text-primary">
               <Mail className="w-2 h-2" style={{ color: goldColor }} />
               <span className="lowercase">info@authorenergy.com</span>
@@ -184,10 +191,16 @@ export default function Header() {
                 {/* Ultra-Compact Bottom Contact Area */}
                 <div className="bg-black/40 backdrop-blur-md border-t border-white/5 py-3 px-8 pb-[calc(12px+env(safe-area-inset-bottom))]">
                 <div className="flex items-center justify-center space-x-10 text-[10px] uppercase font-bold tracking-widest text-[#f59e0b]">
-                    <a href="tel:+2347034703200" className="flex items-center space-x-2">
-                        <Phone className="w-3 h-3" />
-                        <span>+234-7034703200</span>
-                    </a>
+                    <div className="flex flex-col space-y-1">
+                        <a href="tel:+2347034703200" className="flex items-center space-x-2">
+                            <Phone className="w-3 h-3" />
+                            <span>+234-7034703200</span>
+                        </a>
+                        <a href="tel:+2347031372870" className="flex items-center space-x-2">
+                            <Phone className="w-3 h-3" />
+                            <span>+234-7031372870</span>
+                        </a>
+                    </div>
                     <a href="mailto:info@authorenergy.com" className="flex items-center space-x-2 lowercase">
                         <Mail className="w-3 h-3" />
                         <span>info@authorenergy.com</span>
