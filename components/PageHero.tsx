@@ -17,25 +17,23 @@ export default function PageHero({ title, subtitle, image }: PageHeroProps) {
 
   return (
     <section className="relative h-[25vh] md:h-[30vh] flex items-center overflow-hidden bg-zinc-100">
-      <div className="absolute inset-0 z-0">
-        <motion.img 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.7 }}
-          transition={{ duration: 1 }}
-          src={image} 
-          className="w-full h-full object-cover"
-          alt="Hero Background"
-          onLoad={(e) => {
-            (e.target as HTMLImageElement).classList.add('opacity-70');
-          }}
-        />
-        {/* Shimmer Effect while loading */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg] animate-[shimmer_2s_infinite] pointer-events-none" />
+        <div className="absolute inset-0 z-0">
+          <motion.img 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.7 }}
+            transition={{ duration: 1 }}
+            src={image} 
+            className="w-full h-full object-cover"
+            alt="Hero Background"
+            onLoad={(e) => {
+              (e.target as HTMLImageElement).classList.add('opacity-70');
+            }}
+          />
         
-        {/* Consistent Overlays - Lightened slightly to avoid 'black patches' */}
-        <div className="absolute inset-0 z-10 bg-secondary/30" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-secondary/80 via-transparent to-transparent" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-secondary/40 via-transparent to-transparent" />
+        {/* Consistent Overlays - Restored original depth */}
+        <div className="absolute inset-0 z-10 bg-secondary/60" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-secondary/90 via-transparent to-transparent" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-secondary/60 via-transparent to-transparent" />
       </div>
       
       <div className="relative z-20 w-full max-w-7xl mx-auto px-9 pt-12">
