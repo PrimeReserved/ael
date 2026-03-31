@@ -8,15 +8,15 @@ export async function sendContactEmail(formData: any) {
   const { contactType, companyName, name, email, phone, message } = formData;
 
   try {
-    const data = await resend.emails.send({
-      from: "Author Energy <onboarding@resend.dev>", // Transition to info@authorenergy.com once verified
-      to: ["info@authorenergy.com"],
-      subject: `New Contact Form Submission: ${name}`,
+    const { data, error } = await resend.emails.send({
+      from: "Author Energy Limited <training@authorenergy.com>", 
+      to: ["training@authorenergy.com"], 
+      subject: `[Contact Us Page] New Form Submission: ${name}`,
       replyTo: email,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
           <h2 style="color: #f59e0b; border-bottom: 2px solid #f59e0b; padding-bottom: 10px;">New Contact Request</h2>
-          <p style="font-size: 16px; color: #333;">You have a new message from the <strong>Contact Us</strong> page.</p>
+          <p style="font-size: 16px; color: #333;">You have a new message from the <strong>Contact Us</strong> page on the Author Energy Limited website.</p>
           <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 20px;">
             <p><strong>Name:</strong> ${name}</p>
             <p><strong>Email:</strong> ${email}</p>
@@ -35,6 +35,11 @@ export async function sendContactEmail(formData: any) {
         </div>
       `,
     });
+
+    if (error) {
+      console.error("Resend API error (Contact):", error);
+      return { success: false, error };
+    }
 
     return { success: true, data };
   } catch (error) {
@@ -55,21 +60,23 @@ export async function sendTrainingApplicationEmail(formData: any) {
     location,
     participantType,
     numberOfParticipants,
-    marketingConsent
+    marketingConsent,
+    source
   } = formData;
 
   const fullName = `${firstName} ${lastName}`;
 
   try {
-    const data = await resend.emails.send({
-      from: "Author Energy <onboarding@resend.dev>", // Transition to info@authorenergy.com once verified
-      to: ["info@authorenergy.com"],
-      subject: `New Training Application: ${specificCourse || disciplineCategory}`,
+    const defaultSource = source || "Apply for Training Page";
+    const { data, error } = await resend.emails.send({
+      from: "Author Energy Limited <training@authorenergy.com>", 
+      to: ["training@authorenergy.com"], 
+      subject: `[${defaultSource}] New Application: ${specificCourse || disciplineCategory}`,
       replyTo: email,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
           <h2 style="color: #1e1b4b; border-bottom: 2px solid #f59e0b; padding-bottom: 10px;">Training Application</h2>
-          <p style="font-size: 16px; color: #333 text-align: center;">New enrollment request from the <strong>Apply for Training</strong> page.</p>
+          <p style="font-size: 16px; color: #333 text-align: center;">New enrollment request from the <strong>${defaultSource}</strong> on the Author Energy Limited website.</p>
           
           <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 20px;">
             <h3 style="margin-top: 0; color: #f59e0b; font-size: 14px; text-transform: uppercase;">Applicant Details</h3>
@@ -97,6 +104,11 @@ export async function sendTrainingApplicationEmail(formData: any) {
         </div>
       `,
     });
+
+    if (error) {
+      console.error("Resend API error (Training):", error);
+      return { success: false, error };
+    }
 
     return { success: true, data };
   } catch (error) {

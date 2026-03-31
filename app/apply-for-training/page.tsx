@@ -340,7 +340,8 @@ function ApplyForm() {
     location: "",
     participantType: "",
     numberOfParticipants: "",
-    marketingConsent: false
+    marketingConsent: false,
+    source: "Apply for Training Page"
   });
 
   useEffect(() => {
@@ -351,7 +352,8 @@ function ApplyForm() {
       setFormData(prev => ({
         ...prev,
         disciplineCategory: category || prev.disciplineCategory,
-        specificCourse: course || prev.specificCourse
+        specificCourse: course || prev.specificCourse,
+        source: "Courses Page"
       }));
     }
   }, [searchParams]);
@@ -380,7 +382,8 @@ function ApplyForm() {
           location: "",
           participantType: "",
           numberOfParticipants: "",
-          marketingConsent: false
+          marketingConsent: false,
+          source: formData.source
         });
       } else {
         setError("Failed to submit application. Please try again later.");
